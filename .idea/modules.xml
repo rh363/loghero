@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/loghero.iml" filepath="$PROJECT_DIR$/.idea/loghero.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/sample_project.iml" filepath="$PROJECT_DIR$/.idea/sample_project.iml" />
     </modules>
   </component>
 </project>

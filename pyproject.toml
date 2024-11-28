@@ -1,0 +1,40 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "loghero"
+version = "1.0.0"
+description = "Simple app for log some generic infos on db in a structured way"
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = [
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: The Unlicense (Unlicense)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.0"
+dependencies = [
+    "Django>=4.2",
+    "asgiref==3.8.1",
+    "certifi==2024.8.30",
+    "charset-normalizer==3.4.0",
+    "hostip_client==1.0.3",
+    "idna==3.10",
+    "requests==2.32.3",
+    "sqlparse==0.5.2",
+    "urllib3==2.2.3",
+]
+
+[project.urls]
+Homepage = "https://github.com/rh363/log-hero"
+Issues = "https://github.com/rh363/log-hero/issues"
