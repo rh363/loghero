@@ -67,7 +67,7 @@ def add_log(actor: Union[str,User],
         except Exception:
             pass
     return Log.objects.create(
-        actor=actor,
+        actor=actor if isinstance(actor, str) else actor.username,
         action=action,
         severity=severity,
         status=status,
