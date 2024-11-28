@@ -30,14 +30,14 @@ To install LogHero, follow these steps:
 
 1. Clone the repository:
    ```bash
-   pip install loghero
+   pip install log-hero
    ```
 
 2. Add `loghero` to your `INSTALLED_APPS` in your Django project's `settings.py`:
    ```python
    INSTALLED_APPS = [
        ...
-       'loghero',
+       'log_hero',
        ...
    ]
    ```
