@@ -1,3 +1,5 @@
+from typing import Union
+
 from loghero.models import *
 from django.contrib.auth.models import User
 from datetime import datetime
@@ -6,7 +8,7 @@ from hostip_client.client import Client
 #     def __init__(self):
 #         pass
 
-def add_log(actor: str|User,
+def add_log(actor: Union[str,User],
             action: str,
             severity: Severity,
             status: Status,
