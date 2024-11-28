@@ -9,8 +9,8 @@ It provides a convenient way to record and manage logs with customizable severit
 - **Version**: 1.0.0
 - **Description**: A Django app for structured logging of various actions and information.
 - **License**: OSI Approved :: The Unlicense
-- **Homepage**: [LogHero on GitHub](https://github.com/rh363/log-hero)
-- **Issues**: [Issue Tracker](https://github.com/rh363/log-hero/issues)
+- **Homepage**: [LogHero on GitHub](https://github.com/rh363/LogHero)
+- **Issues**: [Issue Tracker](https://github.com/rh363/LogHero/issues)
 
 ## Features
 
@@ -30,14 +30,14 @@ To install LogHero, follow these steps:
 
 1. Clone the repository:
    ```bash
-   pip install log-hero
+   pip install loghero
    ```
 
 2. Add `loghero` to your `INSTALLED_APPS` in your Django project's `settings.py`:
    ```python
    INSTALLED_APPS = [
        ...
-       'log_hero',
+       'loghero',
        ...
    ]
    ```
