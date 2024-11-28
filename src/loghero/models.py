@@ -1,16 +1,19 @@
 from django.db import models
 from enum import Enum
 
+
 class Status(models.TextChoices):
     PENDING = 'pending', 'Pending'
     SUCCESS = 'success', 'Success'
     FAILED = 'failed', 'Failed'
+
 
 class Severity(models.TextChoices):
     INFO = 'info', 'Info'
     WARNING = 'warning', 'Warning'
     ERROR = 'error', 'Error'
     CRITICAL = 'critical', 'Critical'
+
 
 class LogQuerySet(models.QuerySet):
     def to_dict(self):
@@ -35,8 +38,8 @@ class LogQuerySet(models.QuerySet):
 class Log(models.Model):
     actor = models.CharField(max_length=255)
     action = models.CharField(max_length=255)
-    severity = models.CharField(max_length=50, choices=Severity, default=Severity.INFO)
-    status = models.CharField(max_length=255, choices=Status, default=Status.PENDING)
+    severity = models.CharField(max_length=50, choices=Severity.choices, default=Severity.INFO)
+    status = models.CharField(max_length=255, choices=Status.choices, default=Status.PENDING)
     target_type = models.CharField(max_length=255)
     target = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
