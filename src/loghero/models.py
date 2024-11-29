@@ -19,6 +19,7 @@ class Severity(models.TextChoices):
 class LogQuerySet(models.QuerySet):
     def to_dict(self):
         return self.values(
+            "id",
             "actor",
             "action",
             "severity",
