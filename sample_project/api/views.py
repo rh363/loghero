@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.utils import timezone
 
 from loghero.manager import add_log, get_client_ip, Severity, Status
 
@@ -12,5 +13,6 @@ def index(request):
         target_type="mock",
         target="user",
         ip_address=ip,
+        extra_data={"test":"is working", "date": timezone.now()}
     )
     return JsonResponse(status=200, data=dict(message=log.__str__()))

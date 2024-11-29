@@ -1,3 +1,4 @@
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from enum import Enum
 
@@ -52,7 +53,7 @@ class Log(models.Model):
     result = models.CharField(max_length=255,null=True,blank=True)
 
     description = models.TextField(null=True,blank=True)
-    extra_data = models.JSONField(null=True, blank=True)
+    extra_data = models.JSONField(null=True, blank=True, encoder=DjangoJSONEncoder)
 
     objects = LogQuerySet.as_manager()
 
