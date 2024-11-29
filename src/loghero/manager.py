@@ -3,7 +3,7 @@ from typing import Union
 from loghero.models import *
 from django.contrib.auth.models import User
 from datetime import datetime
-from hostip_client.client import Client
+from hostip_client.ip import IpInfos
 # class Manager:
 #     def __init__(self):
 #         pass
@@ -62,8 +62,8 @@ def add_log(actor: Union[str,User],
     """
     if location is None and ip_address is not None:
         try:
-            c = Client(ip_address)
-            location = f"{c.country_name} ({c.country_code}), {c.city}"
+            infos = IpInfos(ip_address)
+            location = f"{infos.country_name} ({infos.country_code}), {infos.city}"
         except Exception:
             pass
     return Log.objects.create(
