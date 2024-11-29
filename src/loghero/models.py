@@ -17,7 +17,7 @@ class Severity(models.TextChoices):
 
 
 class LogQuerySet(models.QuerySet):
-    def to_dict(self):
+    def serialize(self):
         return self.values(
             "id",
             "actor",
