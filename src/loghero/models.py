@@ -7,6 +7,7 @@ class Status(models.TextChoices):
     PENDING = 'pending', 'Pending'
     SUCCESS = 'success', 'Success'
     FAILED = 'failed', 'Failed'
+    STARTED = 'started', 'Started'
 
 
 class Severity(models.TextChoices):

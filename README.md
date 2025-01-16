@@ -6,7 +6,7 @@ It provides a convenient way to record and manage logs with customizable severit
 ## Project Overview
 
 - **Name**: LogHero
-- **Version**: 1.0.7
+- **Version**: 1.1.0
 - **Description**: A Django app for structured logging of various actions and information.
 - **License**: OSI Approved :: The Unlicense
 - **Homepage**: [LogHero on GitHub](https://github.com/rh363/LogHero)
