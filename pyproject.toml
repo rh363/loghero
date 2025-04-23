@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "loghero"
-version = "1.1.0"
+version = "1.2.0"
 description = "Simple app for log some generic infos on db in a structured way"
 readme = "README.md"
 license = {file = "LICENSE"}

@@ -4,24 +4,30 @@ from loghero.models import *
 from django.contrib.auth.models import User
 from datetime import datetime
 from hostip_client.ip import IpInfos
+
 # class Manager:
 #     def __init__(self):
 #         pass
 
-def add_log(actor: Union[str,User],
-            action: str,
-            severity: Severity,
-            status: Status,
-            target: str,
-            target_type: str,
-            ip_address: str = None,
-            user_agent: str = None,
-            url: str = None,
-            location: str = None,
-            result: str = None,
-            result_type: str = None,
-            description: str = None,
-            extra_data: dict = None):
+
+def add_log(
+    actor: Union[str, User],
+    action: str,
+    severity: Severity,
+    status: Status,
+    target: str,
+    target_type: str,
+    actor_label: str = None,
+    ip_address: str = None,
+    user_agent: str = None,
+    url: str = None,
+    location: str = None,
+    result: str = None,
+    result_type: str = None,
+    description: str = None,
+    extra_data: dict = None,
+    auto_discover_location: bool = True,
+):
     """
     This function creates a log entry with the specified information about an action.
     The function accepts various parameters including actor, action, severity,
@@ -60,7 +66,7 @@ def add_log(actor: Union[str,User],
     :return: The created log entry object.
     :rtype: Log
     """
-    if location is None and ip_address is not None:
+    if location is None and ip_address is not None and auto_discover_location is True:
         try:
             infos = IpInfos(ip_address)
             location = f"{infos.country_name} ({infos.country_code}), {infos.city}"
@@ -68,6 +74,7 @@ def add_log(actor: Union[str,User],
             pass
     return Log.objects.create(
         actor=actor if isinstance(actor, str) else actor.username,
+        actor_label=actor_label,
         action=action,
         severity=severity,
         status=status,
@@ -83,6 +90,7 @@ def add_log(actor: Union[str,User],
         extra_data=extra_data,
     )
 
+
 def get_client_ip(request):
     """
     Retrieves the client's IP address from a Django request object. It first checks if
@@ -95,9 +103,9 @@ def get_client_ip(request):
                     address from headers.
     :return: A string representing the client's IP address.
     """
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
     if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
+        ip = x_forwarded_for.split(",")[0]
     else:
-        ip = request.META.get('REMOTE_ADDR')
+        ip = request.META.get("REMOTE_ADDR")
     return ip

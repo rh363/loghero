@@ -2,70 +2,100 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.db import models
 from enum import Enum
 
+from django.db.models import F
+
 
 class Status(models.TextChoices):
-    PENDING = 'pending', 'Pending'
-    SUCCESS = 'success', 'Success'
-    FAILED = 'failed', 'Failed'
-    STARTED = 'started', 'Started'
+    PENDING = "pending", "Pending"
+    SUCCESS = "success", "Success"
+    FAILED = "failed", "Failed"
+    STARTED = "started", "Started"
 
 
 class Severity(models.TextChoices):
-    INFO = 'info', 'Info'
-    WARNING = 'warning', 'Warning'
-    ERROR = 'error', 'Error'
-    CRITICAL = 'critical', 'Critical'
+    INFO = "info", "Info"
+    WARNING = "warning", "Warning"
+    ERROR = "error", "Error"
+    CRITICAL = "critical", "Critical"
 
 
 class LogQuerySet(models.QuerySet):
     def serialize(self):
-        return self.values(
-            "id",
-            "actor",
-            "action",
-            "severity",
-            "status",
-            "target_type",
-            "target",
-            "created_at",
-            "ip_address",
-            "user_agent",
-            "url",
-            "location",
-            "result_type",
-            "result",
-            "description",
-            "extra_data",
+        return (
+            self.annotate(actor_name=F("actor_label") or F("actor"))
+            .values(
+                "id",
+                "actor_name",
+                "action",
+                "severity",
+                "status",
+                "target_type",
+                "target",
+                "created_at",
+                "ip_address",
+                "user_agent",
+                "url",
+                "location",
+                "result_type",
+                "result",
+                "description",
+                "extra_data",
+            )
+            .annotate(actor=F("actor_name"))
+            .values(
+                "id",
+                "actor",
+                "action",
+                "severity",
+                "status",
+                "target_type",
+                "target",
+                "created_at",
+                "ip_address",
+                "user_agent",
+                "url",
+                "location",
+                "result_type",
+                "result",
+                "description",
+                "extra_data",
+            )
         )
+
 
 class Log(models.Model):
     actor = models.CharField(max_length=255)
+    actor_label = models.CharField(max_length=255, null=True, blank=True)
     action = models.CharField(max_length=255)
-    severity = models.CharField(max_length=50, choices=Severity.choices, default=Severity.INFO)
-    status = models.CharField(max_length=255, choices=Status.choices, default=Status.PENDING)
+    severity = models.CharField(
+        max_length=50, choices=Severity.choices, default=Severity.INFO
+    )
+    status = models.CharField(
+        max_length=255, choices=Status.choices, default=Status.PENDING
+    )
     target_type = models.CharField(max_length=255)
     target = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
 
     ip_address = models.CharField(max_length=255, null=True, blank=True)
     user_agent = models.CharField(max_length=255, null=True, blank=True)
-    url = models.URLField(max_length=255,null=True,blank=True)
-    location = models.CharField(max_length=255,null=True,blank=True)
-    result_type = models.CharField(max_length=255,null=True,blank=True)
-    result = models.CharField(max_length=255,null=True,blank=True)
+    url = models.URLField(max_length=255, null=True, blank=True)
+    location = models.CharField(max_length=255, null=True, blank=True)
+    result_type = models.CharField(max_length=255, null=True, blank=True)
+    result = models.CharField(max_length=255, null=True, blank=True)
 
-    description = models.TextField(null=True,blank=True)
+    description = models.TextField(null=True, blank=True)
     extra_data = models.JSONField(null=True, blank=True, encoder=DjangoJSONEncoder)
 
     objects = LogQuerySet.as_manager()
 
     def __str__(self):
-        return f"{self.created_at.isoformat()} [{self.severity}] Actor: '{self.actor}' execute '{self.action}' on/by {self.target}, status: {self.status}, from {self.location}"
+        return f"{self.created_at.isoformat()} [{self.severity}] Actor: '{self.actor_label or self.actor}' execute '{self.action}' on/by {self.target}, status: {self.status}, from {self.location}"
 
     def serialize(self):
         return {
             "id": self.id,
-            "actor": self.actor,
+            "actor": self.actor_label or self.actor,
             "action": self.action,
             "severity": self.severity,
             "status": self.status,
@@ -81,4 +111,3 @@ class Log(models.Model):
             "description": self.description,
             "extra_data": self.extra_data,
         }
-

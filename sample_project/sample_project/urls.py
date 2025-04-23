@@ -14,21 +14,25 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.shortcuts import redirect
 from django.urls import path
-from api.views import index
+from api.views import index, list_logs
+
 
 def go_to_admin(request):
-    return redirect('admin/')
+    return redirect("admin/")
 
-admin.site.site_url = '/api/'
-admin.site.site_header = 'Test Loghero'
-admin.site.site_title = 'Test Loghero'
-admin.site.index_title = 'Test Loghero'
+
+admin.site.site_url = "/api/"
+admin.site.site_header = "Test Loghero"
+admin.site.site_title = "Test Loghero"
+admin.site.index_title = "Test Loghero"
 
 urlpatterns = [
-    path('', go_to_admin),
-    path('admin/', admin.site.urls),
-    path('api/', index)
+    path("", go_to_admin),
+    path("admin/", admin.site.urls),
+    path("api/", index),
+    path("api/list", list_logs),
 ]
