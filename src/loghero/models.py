@@ -3,6 +3,7 @@ from django.db import models
 from enum import Enum
 
 from django.db.models import F
+from django.db.models.functions import Coalesce
 
 
 class Status(models.TextChoices):
@@ -22,7 +23,7 @@ class Severity(models.TextChoices):
 class LogQuerySet(models.QuerySet):
     def serialize(self):
         return (
-            self.annotate(actor_name=F("actor_label") or F("actor"))
+            self.annotate(actor_name=Coalesce(F("actor_label"), F("actor")))
             .values(
                 "id",
                 "actor_name",
