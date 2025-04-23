@@ -23,5 +23,4 @@ def index(request):
 
 def list_logs(request):
     logs = Log.objects.all()
-    print(logs.serialize())
     return JsonResponse(status=200, data=list(logs.serialize()), safe=False)
